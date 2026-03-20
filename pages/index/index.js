@@ -16,6 +16,7 @@ Page({
       encryption: 'WPA2',
       shopName: ''
     },
+    isAndroid: false,
     connecting: false,
     showAd: false,
     countdown: 0,
@@ -30,6 +31,8 @@ Page({
     // 小程序码扫码参数在 options.scene，官方生成器/普通跳转在 options.shopId
     const shopId = options.scene || options.shopId || '001'
     this._shopId = shopId
+    const isAndroid = wx.getDeviceInfo().platform === 'android'
+    this.setData({ isAndroid })
     this._fetchWifiPassword(shopId)
   },
 

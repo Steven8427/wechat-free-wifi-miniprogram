@@ -27,33 +27,56 @@
   </view>
 </view>
 
-<!-- 安卓提示 -->
-<view class="android-tip" wx:if="{{isAndroid}}">
-  <text class="android-tip-title">📶 WiFi已连接</text>
-  <view class="tip-option">
-    <text class="tip-option-text">① 点右上角 ⊙ 退出，保持微信后台运行</text>
+<!-- 安卓连接说明 -->
+<view class="android-options" wx:if="{{isAndroid}}">
+  <view class="android-options-header">
+    <text class="android-options-badge">安卓用户须知</text>
+    <text class="android-options-title">如何保持WiFi不断开？</text>
   </view>
-  <view class="tip-divider"><text class="tip-or">或者</text></view>
-  <view class="tip-option">
-    <text class="tip-option-text">② 复制密码，去手机WiFi设置手动连接（永久不断网）</text>
+
+  <!-- 选项A：保持后台 -->
+  <view class="option-card option-a">
+    <view class="option-tag tag-easy">简单</view>
+    <text class="option-title">保持小程序在后台运行</text>
+    <text class="option-desc">点击右上角 ⊙ 退出小程序，不要清理微信后台，WiFi即可保持连接。</text>
+    <button class="option-btn option-btn-a" bindtap="onDone">点击 ⊙ 退出</button>
   </view>
-  <view class="copy-row">
-    <text class="copy-ssid">{{ssid}}</text>
-    <button class="copy-btn" bindtap="onCopyPassword">复制密码</button>
+
+  <!-- 分隔 -->
+  <view class="option-divider"><text class="option-or">或者</text></view>
+
+  <!-- 选项B：永久连接 -->
+  <view class="option-card option-b">
+    <view class="option-tag tag-permanent">永久</view>
+    <text class="option-title">去系统设置手动连接（推荐）</text>
+    <text class="option-desc">即使关闭微信也不会断网，一劳永逸。</text>
+    <view class="step-list">
+      <view class="step-item">
+        <view class="step-num">1</view>
+        <text class="step-text">密码已自动复制到剪贴板</text>
+      </view>
+      <view class="step-item">
+        <view class="step-num">2</view>
+        <text class="step-text">打开手机「设置」→「WLAN」</text>
+      </view>
+      <view class="step-item">
+        <view class="step-num">3</view>
+        <text class="step-text">找到「{{ssid}}」，粘贴密码连接</text>
+      </view>
+    </view>
+    <view class="step-copy-row">
+      <text class="step-password">WiFi: {{ssid}}</text>
+      <button class="step-copy-btn" bindtap="onCopyPassword">重新复制</button>
+    </view>
   </view>
 </view>
 
 <!-- iOS提示 -->
 <view class="exit-tip" wx:if="{{!isAndroid}}">
-  <text class="exit-tip-text">✅ 已连接，点击完成退出</text>
+  <text class="exit-tip-text">✅ 已连接，退出小程序WiFi保持正常</text>
 </view>
 
-<!-- iOS提示 -->
-<view class="exit-tip" wx:else>
-  <text class="exit-tip-text">✅ 已连接，退出后WiFi保持正常</text>
-</view>
-
-<button class="done-btn" bindtap="onDone">完成</button>
+<button class="done-btn" bindtap="onDone" wx:if="{{!isAndroid}}">完成</button>
 <button class="share-btn" open-type="share">推荐给朋友</button>
 
 </view>
