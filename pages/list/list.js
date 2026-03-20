@@ -84,17 +84,6 @@ Page({
     this.setData({ searchKey: '', filteredList: this.data.wifiList })
   },
 
-  onGoCreate() {
-    wx.navigateTo({ url: '/pages/create/create' })
-  },
-
-  onManage(e) {
-    const { shopid, ssid } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/pages/manage/manage?shopId=${shopid}&ssid=${encodeURIComponent(ssid)}`
-    })
-  },
-
   onDelete(e) {
     const { id, ssid } = e.currentTarget.dataset
     wx.showModal({
@@ -116,6 +105,10 @@ Page({
   },
 
   onShareAppMessage() {
-    return { title: '扫码连WiFi，一键生成WiFi码', path: '/pages/list/list' }
+    return {
+      title: '扫码连WiFi，一键生成WiFi码',
+      path: '/pages/list/list',
+      imageUrl: ''
+    }
   }
 })

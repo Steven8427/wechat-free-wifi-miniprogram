@@ -6,7 +6,7 @@
     <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" wx:if="{{userInfo.avatarUrl}}"/>
     <view class="avatar-placeholder" wx:else>👤</view>
     <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
-    <button class="create-header-btn" bindtap="onGoCreate">+ 新建</button>
+    <navigator url="/pages/create/create" class="create-header-btn">+ 新建</navigator>
   </view>
 
   <!-- 搜索栏 -->
@@ -30,7 +30,7 @@
   <view class="empty-wrap" wx:elif="{{filteredList.length === 0}}">
     <view class="empty-icon">📶</view>
     <text class="empty-text">{{searchKey ? '没有找到相关WiFi' : '还没有创建WiFi码'}}</text>
-    <button class="empty-btn" bindtap="onGoCreate" wx:if="{{!searchKey}}">立即创建</button>
+    <navigator url="/pages/create/create" class="empty-btn" wx:if="{{!searchKey}}">立即创建</navigator>
   </view>
 
   <!-- WiFi列表 -->
@@ -61,13 +61,10 @@
 
       <!-- 操作按钮 -->
       <view class="card-actions">
-        <button
+        <navigator
           class="action-btn manage-btn"
-          bindtap="onManage"
-          data-shopid="{{item.shopId}}"
-          data-ssid="{{item.ssid}}"
-          data-qrcodeurl="{{item.tempQrcodeUrl}}"
-        >管理</button>
+          url="/pages/manage/manage?shopId={{item.shopId}}&ssid={{item.ssid}}"
+        >管理</navigator>
         <button
           class="action-btn delete-btn"
           bindtap="onDelete"

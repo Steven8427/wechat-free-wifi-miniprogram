@@ -3,7 +3,23 @@
   "rules": [
     {
       "action": "allow",
-      "page": "*"
+      "page": "pages/index/index"
+    },
+    {
+      "action": "allow",
+      "page": "pages/success/success"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/list/list"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/create/create"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/manage/manage"
     }
   ]
 }

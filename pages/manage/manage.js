@@ -22,6 +22,8 @@ Page({
   onLoad(options) {
     const ssid = options.ssid ? decodeURIComponent(options.ssid) : ''
     this.setData({ shopId: options.shopId || '', ssid: ssid })
+    // SEO: 动态设置页面标题
+    if (ssid) wx.setNavigationBarTitle({ title: ssid + ' - WiFi管理' })
     this._loadDetail(options.shopId)
   },
 

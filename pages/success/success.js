@@ -14,6 +14,8 @@ Page({
     const password = options.password ? decodeURIComponent(options.password) : ''
     const isAndroid = wx.getDeviceInfo().platform === 'android'
     this.setData({ ssid, password, isAndroid })
+    // SEO: 动态设置页面标题
+    wx.setNavigationBarTitle({ title: ssid + ' - 连接成功' })
     this._getConnectedInfo()
   },
 
@@ -52,8 +54,9 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '免费WiFi，扫码即连',
-      path: '/pages/index/index'
+      title: this.data.ssid + ' - 免费WiFi，扫码即连',
+      path: '/pages/index/index',
+      imageUrl: ''
     }
   }
 })

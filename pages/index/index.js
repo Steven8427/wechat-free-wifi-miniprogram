@@ -29,6 +29,7 @@ Page({
   onLoad(options) {
     // 小程序码扫码参数在 options.scene，官方生成器/普通跳转在 options.shopId
     const shopId = options.scene || options.shopId || '001'
+    this._shopId = shopId
     this._fetchWifiPassword(shopId)
   },
 
@@ -50,6 +51,11 @@ Page({
           'wifiInfo.ssid': result.data.ssid,
           'wifiInfo.shopName': result.data.shopName
         })
+        // SEO: 设置动态页面标题，帮助搜索引擎理解页面内容
+        const title = result.data.shopName
+          ? result.data.shopName + ' - 免费WiFi连接'
+          : result.data.ssid + ' - 免费WiFi连接'
+        wx.setNavigationBarTitle({ title: title })
         console.log('[WIFI] 查询成功', result.data.ssid)
       } else {
         console.warn('[WIFI] 未找到:', result.errMsg)
@@ -63,6 +69,9 @@ Page({
   },
 
   onConnect() {
+    // 爬虫访问时跳过广告和连接流程，直接展示页面内容
+    const app = getApp()
+    if (app.globalData.isCrawler) return
     // this._showCustomAd()  // 开启广告时取消注释
     this._startConnect()
   },
@@ -127,9 +136,12 @@ Page({
   },
 
   onShareAppMessage() {
+    const shopName = this.data.wifiInfo.shopName
+    const ssid = this.data.wifiInfo.ssid
     return {
-      title: '免费WiFi，扫码即连',
-      path: '/pages/index/index?shopId=' + this.data.wifiInfo.shopId
+      title: shopName ? shopName + ' - 免费WiFi，扫码即连' : '免费WiFi，扫码即连 - ' + ssid,
+      path: '/pages/index/index?shopId=' + (this._shopId || ''),
+      imageUrl: '' // 可替换为店铺缩略图或品牌图
     }
   }
 })

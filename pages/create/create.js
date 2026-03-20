@@ -169,7 +169,8 @@ Page({
   onShareAppMessage: function() {
     return {
       title: '扫码连WiFi，一键生成WiFi码',
-      path: '/pages/create/create'
+      path: '/pages/create/create',
+      imageUrl: ''
     }
   }
 })

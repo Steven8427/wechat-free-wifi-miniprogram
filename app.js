@@ -13,6 +13,12 @@ App({
       })
     }
 
+    // 检测搜索爬虫（scene=1129, user-agent=mpcrawler）
+    if (options.scene === 1129) {
+      this.globalData.isCrawler = true
+      console.log('[APP] 搜索爬虫访问')
+    }
+
     // 处理扫码进入的场景
     const scanScenes = [1047, 1048, 1011, 1012, 1013]
     if (scanScenes.includes(options.scene)) {
@@ -51,6 +57,7 @@ App({
   globalData: {
     ssid: '',
     shopId: '',
-    shopName: ''
+    shopName: '',
+    isCrawler: false
   }
 })
