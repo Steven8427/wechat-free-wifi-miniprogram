@@ -1,0 +1,73 @@
+<!-- pages/manage/manage.wxml -->
+<view class="container">
+
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <view wx:else>
+    <!-- 海报区域 -->
+    <view class="poster" style="background: {{themes[themeIndex].bg}};" bindtap="onChangeTheme">
+      <text class="poster-title" style="color: {{themes[themeIndex].text}};">微信扫码连WiFi</text>
+      <text class="poster-sub" style="color: {{themes[themeIndex].text}}; opacity: 0.8;">一键快速连接 · 无需密码 · 安全防蹭网</text>
+      <view class="qrcode-wrap">
+        <image wx:if="{{qrcodeUrl}}" class="qrcode-img" src="{{qrcodeUrl}}" mode="aspectFit" show-menu-by-longpress="true"/>
+        <view class="qrcode-placeholder" wx:else>
+          <text class="placeholder-text">📶</text>
+        </view>
+      </view>
+      <view class="ssid-banner">
+        <text class="ssid-text" style="color: {{themes[themeIndex].text}};">{{ssid}}</text>
+        <text class="ssid-sub" style="color: {{themes[themeIndex].text}}; opacity: 0.7;">无需密码，扫码就能连！</text>
+      </view>
+    </view>
+
+    <text class="theme-tip">点击海报可更换主题色</text>
+
+    <!-- 隐藏canvas用于生成海报图片 -->
+    <canvas
+      type="2d"
+      id="posterCanvas"
+      style="position: fixed; left: -9999px; top: -9999px; width: 750rpx; height: 1000rpx;"
+    ></canvas>
+
+    <!-- 操作按钮 -->
+    <view class="actions">
+      <view class="action-item" bindtap="onSavePoster">
+        <view class="action-icon-wrap" style="background: #FF6B35;">
+          <text class="action-icon">🖼</text>
+        </view>
+        <text class="action-label">保存海报</text>
+      </view>
+
+      <view class="action-item" bindtap="onPreviewQrcode">
+        <view class="action-icon-wrap" style="background: #07C160;">
+          <text class="action-icon">🔍</text>
+        </view>
+        <text class="action-label">查看大图</text>
+      </view>
+
+      <view class="action-item" bindtap="onDelete">
+        <view class="action-icon-wrap" style="background: #FF4444;">
+          <text class="action-icon">🗑</text>
+        </view>
+        <text class="action-label">删除</text>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+<!-- 隐私授权弹窗（正式版必须用此组件） -->
+<view class="privacy-modal" wx:if="{{showPrivacyModal}}">
+  <view class="privacy-mask"></view>
+  <view class="privacy-box">
+    <text class="privacy-title">用户隐私保护提示</text>
+    <text class="privacy-desc">在保存海报前，需要获得您的相册权限，请阅读并同意《用户隐私保护指引》。</text>
+    <view class="privacy-btns">
+      <button class="privacy-cancel" bindtap="onPrivacyDisagree">拒绝</button>
+      <button class="privacy-agree" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="onPrivacyAgree">同意</button>
+    </view>
+  </view>
+</view>

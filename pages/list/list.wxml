@@ -1,0 +1,82 @@
+<!-- pages/list/list.wxml -->
+<view class="container">
+
+  <!-- 顶部用户信息 -->
+  <view class="header">
+    <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" wx:if="{{userInfo.avatarUrl}}"/>
+    <view class="avatar-placeholder" wx:else>👤</view>
+    <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
+    <button class="create-header-btn" bindtap="onGoCreate">+ 新建</button>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索WiFi或品牌名称"
+      value="{{searchKey}}"
+      bindinput="onSearchInput"
+    />
+    <view class="search-clear" wx:if="{{searchKey}}" bindtap="onSearchClear">✕</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:elif="{{filteredList.length === 0}}">
+    <view class="empty-icon">📶</view>
+    <text class="empty-text">{{searchKey ? '没有找到相关WiFi' : '还没有创建WiFi码'}}</text>
+    <button class="empty-btn" bindtap="onGoCreate" wx:if="{{!searchKey}}">立即创建</button>
+  </view>
+
+  <!-- WiFi列表 -->
+  <view class="list-wrap" wx:else>
+    <block wx:for="{{filteredList}}" wx:key="_id">
+      <view class="wifi-card">
+        <!-- 左侧信息 -->
+        <view class="card-left">
+          <text class="card-shopname">{{item.shopName || item.ssid}}</text>
+          <text class="card-ssid">WiFi名称: {{item.ssid}}</text>
+          <text class="card-count">累计连接 <text class="count-num">{{item.connectCount || 0}}</text> 次</text>
+        </view>
+
+        <!-- 右侧二维码 -->
+        <view class="card-qrcode">
+          <image
+            wx:if="{{item.tempQrcodeUrl}}"
+            class="qrcode-thumb"
+            src="{{item.tempQrcodeUrl}}"
+            mode="aspectFit"
+            show-menu-by-longpress="true"
+          />
+          <view class="qrcode-placeholder" wx:else>
+            <text class="qrcode-placeholder-text">📶</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="card-actions">
+        <button
+          class="action-btn manage-btn"
+          bindtap="onManage"
+          data-shopid="{{item.shopId}}"
+          data-ssid="{{item.ssid}}"
+          data-qrcodeurl="{{item.tempQrcodeUrl}}"
+        >管理</button>
+        <button
+          class="action-btn delete-btn"
+          bindtap="onDelete"
+          data-id="{{item._id}}"
+          data-ssid="{{item.ssid}}"
+        >删除</button>
+      </view>
+
+    </block>
+  </view>
+
+</view>

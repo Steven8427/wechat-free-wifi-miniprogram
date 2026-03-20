@@ -1,0 +1,59 @@
+<!-- pages/success/success.wxml -->
+<view class="container">
+
+<view class="success-icon-wrap">
+  <text class="success-icon">✓</text>
+</view>
+
+<text class="success-title">连接成功！</text>
+<text class="success-sub">您已成功连接到WiFi网络</text>
+
+<view class="detail-card">
+  <view class="detail-row">
+    <text class="label">WiFi名称</text>
+    <text class="value">{{ssid}}</text>
+  </view>
+  <view class="detail-row">
+    <text class="label">连接状态</text>
+    <text class="value connected">● 已连接</text>
+  </view>
+  <view class="detail-row" wx:if="{{ip}}">
+    <text class="label">IP地址</text>
+    <text class="value">{{ip}}</text>
+  </view>
+  <view class="detail-row">
+    <text class="label">免费时长</text>
+    <text class="value">不限时</text>
+  </view>
+</view>
+
+<!-- 安卓提示 -->
+<view class="android-tip" wx:if="{{isAndroid}}">
+  <text class="android-tip-title">📶 WiFi已连接</text>
+  <view class="tip-option">
+    <text class="tip-option-text">① 点右上角 ⊙ 退出，保持微信后台运行</text>
+  </view>
+  <view class="tip-divider"><text class="tip-or">或者</text></view>
+  <view class="tip-option">
+    <text class="tip-option-text">② 复制密码，去手机WiFi设置手动连接（永久不断网）</text>
+  </view>
+  <view class="copy-row">
+    <text class="copy-ssid">{{ssid}}</text>
+    <button class="copy-btn" bindtap="onCopyPassword">复制密码</button>
+  </view>
+</view>
+
+<!-- iOS提示 -->
+<view class="exit-tip" wx:if="{{!isAndroid}}">
+  <text class="exit-tip-text">✅ 已连接，点击完成退出</text>
+</view>
+
+<!-- iOS提示 -->
+<view class="exit-tip" wx:else>
+  <text class="exit-tip-text">✅ 已连接，退出后WiFi保持正常</text>
+</view>
+
+<button class="done-btn" bindtap="onDone">完成</button>
+<button class="share-btn" open-type="share">推荐给朋友</button>
+
+</view>

@@ -1,0 +1,74 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+
+<view class="hero">
+  <view class="hero-bg"></view>
+  <view class="wifi-icon-wrap">
+    <text class="wifi-symbol">📶</text>
+  </view>
+  <text class="hero-title">发现可用WiFi</text>
+  <text class="hero-sub">扫码成功，点击按钮即可免费连接</text>
+</view>
+
+<view class="info-card">
+  <view class="info-row">
+    <text class="label">WiFi名称</text>
+    <text class="value">{{wifiInfo.ssid}}</text>
+  </view>
+  <view class="info-row">
+    <text class="label">信号强度</text>
+    <text class="value signal">● 极好</text>
+  </view>
+  <view class="info-row">
+    <text class="label">加密方式</text>
+    <text class="value">{{wifiInfo.encryption || 'WPA2'}}</text>
+  </view>
+  <view class="info-row" wx:if="{{wifiInfo.shopName}}">
+    <text class="label">商家</text>
+    <text class="value">{{wifiInfo.shopName}}</text>
+  </view>
+</view>
+
+<button class="connect-btn" bindtap="onConnect" wx:if="{{!connecting}}">
+  ▶ 一键连接WiFi
+</button>
+
+<view class="connecting-wrap" wx:if="{{connecting}}">
+  <view class="connecting-spinner"></view>
+  <text class="connecting-text">正在连接 {{wifiInfo.ssid}} ...</text>
+</view>
+
+</view>
+
+<view class="ad-overlay" wx:if="{{showAd}}" catchtouchmove="preventMove">
+<view class="ad-modal">
+
+<view class="ad-header">
+  <text class="ad-header-label">广告</text>
+  <view class="ad-countdown-wrap">
+    <text class="ad-countdown" wx:if="{{countdown > 0}}">{{countdown}}s 后可关闭</text>
+    <view class="ad-close-btn" wx:else bindtap="onAdClose">
+      <text class="ad-close-text">关闭广告 ✕</text>
+    </view>
+  </view>
+</view>
+
+<view class="ad-body">
+  <image class="ad-image" src="{{adConfig.imageUrl}}" mode="aspectFill"
+    wx:if="{{adConfig.imageUrl}}" bindtap="onAdTap" />
+  <view class="ad-default" wx:else>
+    <view class="ad-default-icon">🎉</view>
+    <text class="ad-default-title">{{adConfig.title || '欢迎光临'}}</text>
+    <text class="ad-default-desc">{{adConfig.desc || '感谢使用免费WiFi服务'}}</text>
+  </view>
+</view>
+
+<view class="ad-footer">
+  <view class="ad-progress">
+    <view class="ad-progress-bar" style="width: {{adProgress}};"></view>
+  </view>
+  <text class="ad-footer-text">观看完毕即可免费连接WiFi</text>
+</view>
+
+</view>
+</view>

@@ -1,0 +1,90 @@
+<!-- pages/create/create.wxml -->
+<view class="container">
+
+<!-- ===== 创建表单 ===== -->
+<view wx:if="{{!showResult}}">
+
+  <!-- 头部 Banner -->
+  <view class="banner">
+    <view class="banner-icon">📶</view>
+    <view class="banner-title">创建WiFi码</view>
+    <view class="banner-sub">一键连接 · 无需告知密码 · 安全防蹭网</view>
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-card">
+    <view class="form-item">
+      <text class="form-label">品牌名称</text>
+      <input 
+        class="form-input" 
+        placeholder="如：星巴克（选填）" 
+        value="{{shopName}}"
+        bindinput="onInputShopName"
+      />
+    </view>
+    <view class="form-item">
+      <text class="form-label">WiFi名称</text>
+      <input 
+        class="form-input" 
+        placeholder="输入WiFi名称（必填）" 
+        value="{{ssid}}"
+        bindinput="onInputSsid"
+      />
+    </view>
+    <view class="form-item">
+      <text class="form-label">WiFi密码</text>
+      <input 
+        class="form-input" 
+        placeholder="输入WiFi密码（必填）" 
+        value="{{password}}"
+        bindinput="onInputPassword"
+      />
+    </view>
+    <view class="form-tip">
+      <text>🔒 WiFi密码加密存储，不会被泄露，请放心填写</text>
+    </view>
+  </view>
+
+  <!-- 生成按钮 -->
+  <button 
+    class="create-btn" 
+    bindtap="onCreate"
+    disabled="{{creating}}"
+  >
+    {{creating ? '生成中...' : '一键生成WiFi码'}}
+  </button>
+
+</view>
+
+<!-- ===== 生成结果 ===== -->
+<view wx:else class="result-page">
+
+  <view class="result-card">
+    <view class="result-header">
+      <text class="result-title">微信扫码连WiFi</text>
+      <text class="result-sub">一键快速连接 · 无需密码</text>
+    </view>
+
+    <view class="qrcode-wrap">
+      <image 
+        class="qrcode-img" 
+        src="{{qrcodeUrl}}" 
+        mode="aspectFit"
+        show-menu-by-longpress="true"
+      />
+    </view>
+
+    <view class="result-ssid">{{ssid}}</view>
+    <view class="result-tip">扫码即连，无需密码</view>
+  </view>
+
+  <view class="result-actions">
+    <button class="save-btn" bindtap="onSaveImage">保存到相册</button>
+    <button class="back-btn" bindtap="onBackToCreate">继续创建</button>
+  </view>
+
+  <view class="result-hint">长按小程序码也可保存图片</view>
+
+</view>
+
+</view>

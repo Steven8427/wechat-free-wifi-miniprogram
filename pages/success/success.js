@@ -1,0 +1,59 @@
+// pages/success/success.js
+
+Page({
+  data: {
+    ssid: '',
+    password: '',
+    ip: '',
+    isAndroid: false,
+    showPassword: false
+  },
+
+  onLoad(options) {
+    const ssid = options.ssid ? decodeURIComponent(options.ssid) : 'WiFi'
+    const password = options.password ? decodeURIComponent(options.password) : ''
+    const isAndroid = wx.getDeviceInfo().platform === 'android'
+    this.setData({ ssid, password, isAndroid })
+    this._getConnectedInfo()
+  },
+
+  _getConnectedInfo() {
+    wx.getConnectedWifi({
+      success: (res) => console.log('[WIFI] 当前连接信息', res.wifi),
+      fail: (err) => console.log('[WIFI] 获取连接信息失败', err)
+    })
+    wx.getLocalIPAddress({
+      success: (res) => this.setData({ ip: res.localip || '' }),
+      fail: () => this.setData({ ip: '' })
+    })
+  },
+
+  // 复制密码到剪贴板
+  onCopyPassword() {
+    wx.setClipboardData({
+      data: this.data.password,
+      success: () => {
+        wx.showToast({ title: '密码已复制', icon: 'success' })
+      }
+    })
+  },
+
+  onDone() {
+    if (this.data.isAndroid) {
+      wx.showToast({
+        title: '请点右上角 ⊙ 退出',
+        icon: 'none',
+        duration: 3000
+      })
+    } else {
+      wx.exitMiniProgram()
+    }
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '免费WiFi，扫码即连',
+      path: '/pages/index/index'
+    }
+  }
+})

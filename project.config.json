@@ -1,0 +1,54 @@
+{
+  "description": "WiFi广告连接小程序",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "scopeDataCheck": false,
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "autoAudits": false,
+    "newFeature": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "enhance": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "disableUseStrict": false,
+    "minifyWXML": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "cloudfunctionRoot": "cloudfunctions/",
+  "compileType": "miniprogram",
+  "libVersion": "3.3.4",
+  "appid": "wxa963974a18a02f09",
+  "projectname": "wifi-ad-connect",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "扫码进入模拟",
+          "pathName": "pages/index/index",
+          "query": "shopId=001&ssid=HSYZ&shopName=HSYZ"
+        }
+      ]
+    }
+  },
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
+  "testRoot": "minitest/"
+}
