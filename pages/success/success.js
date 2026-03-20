@@ -17,6 +17,16 @@ Page({
     // SEO: 动态设置页面标题
     wx.setNavigationBarTitle({ title: ssid + ' - 连接成功' })
     this._getConnectedInfo()
+
+    // 安卓自动复制密码，方便用户去系统设置手动连接
+    if (isAndroid && password) {
+      wx.setClipboardData({
+        data: password,
+        success: () => {
+          wx.showToast({ title: '密码已自动复制', icon: 'success', duration: 2000 })
+        }
+      })
+    }
   },
 
   _getConnectedInfo() {

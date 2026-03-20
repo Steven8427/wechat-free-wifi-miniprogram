@@ -29,6 +29,11 @@
   </view>
 </view>
 
+<!-- 安卓提示 -->
+<view class="android-notice" wx:if="{{isAndroid}}">
+  <text class="android-notice-text">安卓用户：连接后需按提示去系统WiFi设置，才能保持永久连接</text>
+</view>
+
 <button class="connect-btn" bindtap="onConnect" wx:if="{{!connecting}}">
   ▶ 一键连接WiFi
 </button>

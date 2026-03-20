@@ -140,53 +140,167 @@
   border: none;
 }
 
-/* ===== 安卓提示 ===== */
-.android-tip {
+/* ===== 安卓两选项引导 ===== */
+.android-options {
   width: 100%;
-  background: #E8F5E9;
-  border-radius: 16rpx;
-  padding: 28rpx 32rpx;
   margin-bottom: 32rpx;
-  box-sizing: border-box;
 }
 
-.android-tip-title {
-  display: block;
-  font-size: 28rpx;
-  font-weight: 700;
-  color: #2E7D32;
-  margin-bottom: 10rpx;
-}
-
-.android-tip-desc {
-  display: block;
-  font-size: 24rpx;
-  color: #388E3C;
-  line-height: 1.6;
+.android-options-header {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
   margin-bottom: 20rpx;
 }
 
-.copy-row {
+.android-options-badge {
+  display: inline-block;
+  background: #FF6B35;
+  color: #fff;
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+}
+
+.android-options-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* 选项卡片 */
+.option-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 28rpx 32rpx;
+  box-sizing: border-box;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.option-tag {
+  display: inline-block;
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  margin-bottom: 12rpx;
+}
+
+.tag-easy {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.tag-permanent {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.option-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10rpx;
+}
+
+.option-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 20rpx;
+}
+
+.option-btn {
+  width: 100% !important;
+  height: 80rpx;
+  line-height: 80rpx;
+  border: none;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.option-btn::after { border: none; }
+
+.option-btn-a {
+  background: #07C160 !important;
+  color: #fff !important;
+}
+
+/* 分隔线 */
+.option-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24rpx 0;
+}
+
+.option-or {
+  font-size: 24rpx;
+  color: #999;
+  padding: 0 20rpx;
+}
+
+/* 步骤列表 */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.step-num {
+  width: 40rpx;
+  height: 40rpx;
+  background: #1890FF;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-text {
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.5;
+}
+
+.step-copy-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: #F5F5F5;
   border-radius: 12rpx;
   padding: 16rpx 20rpx;
+  margin-top: 8rpx;
 }
 
-.copy-ssid {
+.step-password {
   font-size: 26rpx;
   font-weight: 600;
   color: #1a1a1a;
   flex: 1;
 }
 
-.copy-btn {
-  background: #07C160 !important;
+.step-copy-btn {
+  background: #1890FF !important;
   color: #fff !important;
   font-size: 24rpx;
-  padding: 10rpx 24rpx;
+  padding: 8rpx 24rpx;
   border-radius: 10rpx;
   border: none;
   line-height: 1.5;
@@ -194,31 +308,4 @@
   min-height: unset;
 }
 
-.copy-btn::after { border: none; }
-
-.tip-option {
-  background: rgba(255,255,255,0.7);
-  border-radius: 10rpx;
-  padding: 16rpx 20rpx;
-  margin-bottom: 12rpx;
-}
-
-.tip-option-text {
-  font-size: 26rpx;
-  color: #2E7D32;
-  line-height: 1.6;
-}
-
-.tip-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 8rpx 0 16rpx;
-}
-
-.tip-or {
-  font-size: 24rpx;
-  color: #888;
-  background: #E8F5E9;
-  padding: 0 16rpx;
-}
+.step-copy-btn::after { border: none; }

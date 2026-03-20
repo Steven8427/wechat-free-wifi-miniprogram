@@ -136,6 +136,20 @@
   color: #B8941F;
 }
 
+/* ===== 安卓提示 ===== */
+.android-notice {
+  margin: 0 30rpx 16rpx;
+  background: #FFF8E1;
+  border-radius: 16rpx;
+  padding: 20rpx 28rpx;
+}
+
+.android-notice-text {
+  font-size: 24rpx;
+  color: #F57C00;
+  line-height: 1.6;
+}
+
 /* ===== 连接按钮 ===== */
 .connect-btn {
   margin: 16rpx 30rpx 40rpx;

@@ -6,7 +6,7 @@
     <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" wx:if="{{userInfo.avatarUrl}}"/>
     <view class="avatar-placeholder" wx:else>👤</view>
     <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
-    <navigator url="/pages/create/create" class="create-header-btn">+ 新建</navigator>
+    <navigator url="/pages/create/create" class="create-header-btn" hover-class="none">+ 新建</navigator>
   </view>
 
   <!-- 搜索栏 -->
@@ -30,7 +30,7 @@
   <view class="empty-wrap" wx:elif="{{filteredList.length === 0}}">
     <view class="empty-icon">📶</view>
     <text class="empty-text">{{searchKey ? '没有找到相关WiFi' : '还没有创建WiFi码'}}</text>
-    <navigator url="/pages/create/create" class="empty-btn" wx:if="{{!searchKey}}">立即创建</navigator>
+    <navigator url="/pages/create/create" class="empty-btn" hover-class="none" wx:if="{{!searchKey}}">立即创建</navigator>
   </view>
 
   <!-- WiFi列表 -->
@@ -64,6 +64,7 @@
         <navigator
           class="action-btn manage-btn"
           url="/pages/manage/manage?shopId={{item.shopId}}&ssid={{item.ssid}}"
+          hover-class="none"
         >管理</navigator>
         <button
           class="action-btn delete-btn"
