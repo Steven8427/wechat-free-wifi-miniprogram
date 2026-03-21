@@ -33,6 +33,11 @@ Typical flow:
 - Export QR poster to photo album
 - Cloud function based secure data query
 
+![cfcdedddc423a3c0526c6972dfd0ffb6](https://github.com/user-attachments/assets/25e4f51f-5070-49bf-bc0f-7b180eda6409)![980606ab0b8e3b89f5617721937eb191](https://github.com/user-attachments/assets/6020a12d-cfe7-4895-9a92-194d6e21c50f)
+![3144a943f697a8e9b4e4409c559c52e0](https://github.com/user-attachments/assets/2cc9301e-e5ef-41a6-8fdf-cfcf426d6395)
+
+![b48f9b53611693fa519c8a223633086e](https://github.com/user-attachments/assets/06f39799-2e47-4d21-9605-ced4fb33d153)
+
 ## Project Structure
 
 ```text
