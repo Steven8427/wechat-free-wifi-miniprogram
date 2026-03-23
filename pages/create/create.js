@@ -157,6 +157,10 @@ Page({
 
   // ========== 返回新建 ==========
 
+  onBackToList: function() {
+    wx.navigateBack({ delta: 1 })
+  },
+
   onBackToCreate: function() {
     this.setData({
       showResult: false,

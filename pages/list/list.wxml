@@ -1,11 +1,9 @@
 <!-- pages/list/list.wxml -->
 <view class="container">
 
-  <!-- 顶部用户信息 -->
+  <!-- 顶部标题栏 -->
   <view class="header">
-    <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" wx:if="{{userInfo.avatarUrl}}"/>
-    <view class="avatar-placeholder" wx:else>👤</view>
-    <text class="nickname">{{userInfo.nickName || '微信用户'}}</text>
+    <text class="header-title">WiFi码管理</text>
     <navigator url="/pages/create/create" class="create-header-btn" hover-class="none">+ 新建</navigator>
   </view>
 

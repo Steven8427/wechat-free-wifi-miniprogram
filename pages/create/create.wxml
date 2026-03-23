@@ -83,6 +83,8 @@
     <button class="back-btn" bindtap="onBackToCreate">继续创建</button>
   </view>
 
+  <view class="home-link" bindtap="onBackToList">返回主页</view>
+
   <view class="result-hint">长按小程序码也可保存图片</view>
 
 </view>

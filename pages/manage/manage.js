@@ -6,9 +6,16 @@ Page({
     recordId: '',
     qrcodeFileID: '',  // 云存储文件ID，删除时一并清除
     ssid: '',
+    password: '',
+    shopName: '',
     qrcodeUrl: '',
     themeIndex: 0,
     loading: true,
+    editing: false,
+    editSsid: '',
+    editPassword: '',
+    editShopName: '',
+    saving: false,
     showPrivacyModal: false,
     themes: [
       { bg: '#07C160', text: '#fff' },
@@ -39,7 +46,13 @@ Page({
           return
         }
         const item = res.data[0]
-        this.setData({ recordId: item._id, ssid: item.ssid, qrcodeFileID: item.qrcodeFileID || '' })
+        this.setData({
+          recordId: item._id,
+          ssid: item.ssid,
+          password: item.password || '',
+          shopName: item.shopName || '',
+          qrcodeFileID: item.qrcodeFileID || ''
+        })
         if (!item.qrcodeFileID) {
           this.setData({ loading: false })
           return
@@ -56,6 +69,62 @@ Page({
       .catch(() => {
         this.setData({ loading: false })
         wx.showToast({ title: '加载失败', icon: 'none' })
+      })
+  },
+
+  // ========== 编辑功能 ==========
+
+  onStartEdit() {
+    this.setData({
+      editing: true,
+      editSsid: this.data.ssid,
+      editPassword: this.data.password,
+      editShopName: this.data.shopName
+    })
+  },
+
+  onCancelEdit() {
+    this.setData({ editing: false })
+  },
+
+  onEditSsid(e) { this.setData({ editSsid: e.detail.value }) },
+  onEditPassword(e) { this.setData({ editPassword: e.detail.value }) },
+  onEditShopName(e) { this.setData({ editShopName: e.detail.value }) },
+
+  onSaveEdit() {
+    const { editSsid, editPassword, editShopName, recordId } = this.data
+    if (!editSsid || !editSsid.trim()) {
+      wx.showToast({ title: '请输入WiFi名称', icon: 'none' })
+      return
+    }
+    if (!editPassword || !editPassword.trim()) {
+      wx.showToast({ title: '请输入WiFi密码', icon: 'none' })
+      return
+    }
+
+    this.setData({ saving: true })
+    const db = wx.cloud.database()
+    const newData = {
+      ssid: editSsid.trim(),
+      password: editPassword.trim(),
+      shopName: (editShopName && editShopName.trim()) ? editShopName.trim() : editSsid.trim()
+    }
+
+    db.collection('wifi_list').doc(recordId).update({ data: newData })
+      .then(() => {
+        this.setData({
+          ssid: newData.ssid,
+          password: newData.password,
+          shopName: newData.shopName,
+          editing: false,
+          saving: false
+        })
+        wx.setNavigationBarTitle({ title: newData.ssid + ' - WiFi管理' })
+        wx.showToast({ title: '保存成功', icon: 'success' })
+      })
+      .catch(() => {
+        this.setData({ saving: false })
+        wx.showToast({ title: '保存失败', icon: 'none' })
       })
   },
 

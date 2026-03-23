@@ -25,6 +25,29 @@
 
     <text class="theme-tip">点击海报可更换主题色</text>
 
+    <!-- 编辑表单 -->
+    <view class="edit-section" wx:if="{{editing}}">
+      <view class="edit-card">
+        <text class="edit-title">编辑WiFi信息</text>
+        <view class="edit-field">
+          <text class="edit-label">商店名称</text>
+          <input class="edit-input" value="{{editShopName}}" bindinput="onEditShopName" placeholder="输入商店名称"/>
+        </view>
+        <view class="edit-field">
+          <text class="edit-label">WiFi名称</text>
+          <input class="edit-input" value="{{editSsid}}" bindinput="onEditSsid" placeholder="输入WiFi名称 (SSID)"/>
+        </view>
+        <view class="edit-field">
+          <text class="edit-label">WiFi密码</text>
+          <input class="edit-input" value="{{editPassword}}" bindinput="onEditPassword" placeholder="输入WiFi密码" password="{{false}}"/>
+        </view>
+        <view class="edit-btns">
+          <button class="edit-cancel-btn" bindtap="onCancelEdit">取消</button>
+          <button class="edit-save-btn" bindtap="onSaveEdit" loading="{{saving}}">保存</button>
+        </view>
+      </view>
+    </view>
+
     <!-- 隐藏canvas用于生成海报图片 -->
     <canvas
       type="2d"
@@ -34,6 +57,13 @@
 
     <!-- 操作按钮 -->
     <view class="actions">
+      <view class="action-item" bindtap="onStartEdit">
+        <view class="action-icon-wrap" style="background: #1890FF;">
+          <text class="action-icon">✏</text>
+        </view>
+        <text class="action-label">编辑</text>
+      </view>
+
       <view class="action-item" bindtap="onSavePoster">
         <view class="action-icon-wrap" style="background: #FF6B35;">
           <text class="action-icon">🖼</text>

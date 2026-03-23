@@ -2,7 +2,6 @@
 
 Page({
   data: {
-    userInfo: {},
     wifiList: [],
     filteredList: [],
     searchKey: '',
@@ -10,20 +9,11 @@ Page({
   },
 
   onLoad() {
-    this._getUserInfo()
     this._loadWifiList()
   },
 
   onShow() {
     this._loadWifiList()
-  },
-
-  _getUserInfo() {
-    wx.getUserProfile({
-      desc: '展示用户信息',
-      success: (res) => { this.setData({ userInfo: res.userInfo }) },
-      fail: () => { this.setData({ userInfo: { nickName: '微信用户', avatarUrl: '' } }) }
-    })
   },
 
   _loadWifiList() {

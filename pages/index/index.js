@@ -122,6 +122,11 @@ Page({
     wifiHelper.connectWifi(ssid, password)
       .then(() => {
         console.log('[WIFI] 连接成功')
+        // 递增连接计数（不阻塞页面跳转）
+        wx.cloud.callFunction({
+          name: 'getWifiInfo',
+          data: { shopId: this._shopId, action: 'incrementCount' }
+        }).catch(err => console.warn('[WIFI] 计数更新失败', err))
         wx.redirectTo({
           url: '/pages/success/success?ssid=' + encodeURIComponent(ssid) + '&password=' + encodeURIComponent(password)
         })

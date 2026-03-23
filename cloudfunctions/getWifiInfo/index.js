@@ -4,7 +4,8 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 exports.main = async (event) => {
   const db = cloud.database()
-  const { shopId } = event
+  const _ = db.command
+  const { shopId, action } = event
 
   if (!shopId) {
     return { code: -1, errMsg: '缺少shopId参数' }
@@ -20,6 +21,15 @@ exports.main = async (event) => {
     }
 
     const info = res.data[0]
+
+    // 连接成功后递增计数
+    if (action === 'incrementCount') {
+      await db.collection('wifi_list').doc(info._id).update({
+        data: { connectCount: _.inc(1) }
+      })
+      return { code: 0, msg: '计数已更新' }
+    }
+
     // 只返回必要字段，不暴露数据库_id等敏感信息
     return {
       code: 0,
