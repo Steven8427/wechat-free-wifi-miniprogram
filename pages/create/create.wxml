@@ -79,13 +79,23 @@
   </view>
 
   <view class="result-actions">
-    <button class="save-btn" bindtap="onSaveImage">保存到相册</button>
-    <button class="back-btn" bindtap="onBackToCreate">继续创建</button>
+    <button class="save-btn" bindtap="onSavePoster">保存海报</button>
+    <button class="save-qr-btn" bindtap="onSaveImage">保存二维码</button>
   </view>
 
-  <view class="home-link" bindtap="onBackToList">返回主页</view>
+  <view class="result-actions-row2">
+    <button class="back-btn" bindtap="onBackToCreate">继续创建</button>
+    <button class="home-btn" bindtap="onBackToList">返回主页</button>
+  </view>
 
   <view class="result-hint">长按小程序码也可保存图片</view>
+
+  <!-- 隐藏canvas用于生成海报 -->
+  <canvas
+    type="2d"
+    id="posterCanvas"
+    style="position: fixed; left: -9999px; top: -9999px; width: 750rpx; height: 1000rpx;"
+  ></canvas>
 
 </view>
 

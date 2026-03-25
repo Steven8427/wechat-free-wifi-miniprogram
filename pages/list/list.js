@@ -75,7 +75,7 @@ Page({
   },
 
   onDelete(e) {
-    const { id, ssid } = e.currentTarget.dataset
+    const { id, ssid, fileid } = e.currentTarget.dataset
     wx.showModal({
       title: '确认删除',
       content: `确定要删除 "${ssid}" 的WiFi码吗？`,
@@ -85,6 +85,10 @@ Page({
           const db = wx.cloud.database()
           db.collection('wifi_list').doc(id).remove()
             .then(() => {
+              // 同步删除云存储里的二维码图片
+              if (fileid) {
+                wx.cloud.deleteFile({ fileList: [fileid] })
+              }
               wx.showToast({ title: '已删除', icon: 'success' })
               this._loadWifiList()
             })

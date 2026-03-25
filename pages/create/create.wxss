@@ -241,7 +241,7 @@
 .result-actions {
   display: flex;
   gap: 20rpx;
-  margin-bottom: 24rpx;
+  margin-bottom: 16rpx;
 }
 
 .save-btn {
@@ -256,6 +256,24 @@
   border: none;
 }
 
+.save-qr-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #fff;
+  color: #07C160;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+  border: 2rpx solid #07C160;
+}
+
+.result-actions-row2 {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
 .back-btn {
   flex: 1;
   height: 88rpx;
@@ -268,12 +286,16 @@
   border: 2rpx solid #ddd;
 }
 
-.home-link {
-  display: block;
-  text-align: center;
-  font-size: 28rpx;
-  color: #07C160;
-  margin: 24rpx 0;
+.home-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #fff;
+  color: #333;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 44rpx;
+  border: 2rpx solid #ddd;
 }
 
 .result-hint {

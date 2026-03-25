@@ -119,7 +119,7 @@ Page({
     return id
   },
 
-  // ========== 保存图片 ==========
+  // ========== 保存二维码图片 ==========
 
   onSaveImage: function() {
     var url = this.data.qrcodeUrl
@@ -152,6 +152,135 @@ Page({
       fail: function() {
         wx.showToast({ title: '下载失败', icon: 'none' })
       }
+    })
+  },
+
+  // ========== 保存海报 ==========
+
+  onSavePoster: function() {
+    var url = this.data.qrcodeUrl
+    if (!url) { wx.showToast({ title: '图片还未加载', icon: 'none' }); return }
+    this._drawAndSave(url)
+  },
+
+  _roundRect: function(ctx, x, y, w, h, r) {
+    ctx.beginPath()
+    ctx.moveTo(x + r, y)
+    ctx.lineTo(x + w - r, y)
+    ctx.arcTo(x + w, y, x + w, y + r, r)
+    ctx.lineTo(x + w, y + h - r)
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r)
+    ctx.lineTo(x + r, y + h)
+    ctx.arcTo(x, y + h, x, y + h - r, r)
+    ctx.lineTo(x, y + r)
+    ctx.arcTo(x, y, x + r, y, r)
+    ctx.closePath()
+  },
+
+  _drawAndSave: function(qrcodeUrl) {
+    wx.showLoading({ title: '生成海报中...' })
+
+    var ssid = this.data.ssid
+    var ratio = wx.getWindowInfo().pixelRatio
+    var W = 375
+    var H = 560
+    var that = this
+
+    var query = wx.createSelectorQuery()
+    query.select('#posterCanvas').fields({ node: true, size: true }).exec(function(res) {
+      var canvas = res[0].node
+      var ctx = canvas.getContext('2d')
+      canvas.width = W * ratio
+      canvas.height = H * ratio
+      ctx.scale(ratio, ratio)
+
+      wx.downloadFile({
+        url: qrcodeUrl,
+        success: function(dlRes) {
+          var img = canvas.createImage()
+          img.src = dlRes.tempFilePath
+          img.onload = function() {
+            // 背景
+            ctx.fillStyle = '#07C160'
+            ctx.fillRect(0, 0, W, H)
+
+            // 白色主卡片
+            ctx.fillStyle = '#ffffff'
+            that._roundRect(ctx, 20, 20, W - 40, H - 100, 20)
+            ctx.fill()
+
+            // 标题
+            ctx.fillStyle = '#07C160'
+            ctx.font = 'bold 24px sans-serif'
+            ctx.textAlign = 'center'
+            ctx.fillText('微信扫码连WiFi', W / 2, 70)
+
+            // 副标题
+            ctx.fillStyle = '#888'
+            ctx.font = '13px sans-serif'
+            ctx.fillText('一键快速连接 · 无需密码 · 安全防蹭网', W / 2, 96)
+
+            // 二维码
+            var qrSize = 210
+            var qrX = (W - qrSize) / 2
+            var qrY = 115
+            ctx.drawImage(img, qrX, qrY, qrSize, qrSize)
+
+            // WiFi名称
+            ctx.fillStyle = '#1a1a1a'
+            ctx.font = 'bold 26px sans-serif'
+            ctx.fillText(ssid, W / 2, qrY + qrSize + 58)
+
+            ctx.fillStyle = '#999'
+            ctx.font = '13px sans-serif'
+            ctx.fillText('无需密码，扫码就能连！', W / 2, qrY + qrSize + 82)
+
+            // 底部文字
+            ctx.fillStyle = 'rgba(255,255,255,0.9)'
+            ctx.font = '12px sans-serif'
+            ctx.fillText('长按识别小程序码连接WiFi', W / 2, H - 30)
+
+            // 导出并保存
+            wx.canvasToTempFilePath({
+              canvas: canvas,
+              success: function(r) {
+                wx.saveImageToPhotosAlbum({
+                  filePath: r.tempFilePath,
+                  success: function() {
+                    wx.hideLoading()
+                    wx.showToast({ title: '海报已保存到相册', icon: 'success' })
+                  },
+                  fail: function(err) {
+                    wx.hideLoading()
+                    if (err.errMsg && err.errMsg.indexOf('auth') > -1) {
+                      wx.showModal({
+                        title: '需要相册权限',
+                        content: '请在设置中允许访问相册',
+                        confirmText: '去设置',
+                        success: function(r) { if (r.confirm) wx.openSetting() }
+                      })
+                    } else {
+                      wx.showToast({ title: '保存失败', icon: 'none' })
+                    }
+                  }
+                })
+              },
+              fail: function() {
+                wx.hideLoading()
+                wx.showToast({ title: '生成失败', icon: 'none' })
+              }
+            })
+          }
+          img.onerror = function() {
+            wx.hideLoading()
+            wx.showToast({ title: '图片加载失败', icon: 'none' })
+          }
+        },
+        fail: function() {
+          wx.hideLoading()
+          wx.showToast({ title: '下载失败', icon: 'none' })
+        }
+      })
     })
   },
 

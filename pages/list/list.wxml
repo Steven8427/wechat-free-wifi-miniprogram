@@ -69,6 +69,7 @@
           bindtap="onDelete"
           data-id="{{item._id}}"
           data-ssid="{{item.ssid}}"
+          data-fileid="{{item.qrcodeFileID}}"
         >删除</button>
       </view>
 
