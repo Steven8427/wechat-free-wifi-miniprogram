@@ -79,4 +79,6 @@
 <button class="done-btn" bindtap="onDone" wx:if="{{!isAndroid}}">完成</button>
 <button class="share-btn" open-type="share">推荐给朋友</button>
 
+<text class="seo-footer">扫码连WiFi · 免费WiFi扫码上网，无需密码一键连接餐厅、商场等商家WiFi</text>
+
 </view>

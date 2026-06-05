@@ -43,6 +43,12 @@
   <text class="connecting-text">正在连接 {{wifiInfo.ssid}} ...</text>
 </view>
 
+<!-- 服务说明（用户须知 + 搜一搜收录） -->
+<view class="seo-desc">
+  <text class="seo-desc-title">扫码连WiFi · 商家免费WiFi码</text>
+  <text class="seo-desc-text">扫描WiFi二维码即可一键连接免费WiFi，无需输入密码，扫码上网安全又快速。支持餐厅、奶茶店、酒店、商场、便利店、理发店等商家的WiFi码生成与扫码连接，顾客扫码即可免费联网上网。</text>
+</view>
+
 </view>
 
 <view class="ad-overlay" wx:if="{{showAd}}" catchtouchmove="preventMove">

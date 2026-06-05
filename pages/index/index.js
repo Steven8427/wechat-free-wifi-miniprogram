@@ -56,8 +56,8 @@ Page({
         })
         // SEO: 设置动态页面标题，帮助搜索引擎理解页面内容
         const title = result.data.shopName
-          ? result.data.shopName + ' - 免费WiFi连接'
-          : result.data.ssid + ' - 免费WiFi连接'
+          ? result.data.shopName + ' - 免费WiFi连接·扫码上网'
+          : result.data.ssid + ' - 免费WiFi连接·扫码上网'
         wx.setNavigationBarTitle({ title: title })
         console.log('[WIFI] 查询成功', result.data.ssid)
       } else {
@@ -147,7 +147,7 @@ Page({
     const shopName = this.data.wifiInfo.shopName
     const ssid = this.data.wifiInfo.ssid
     return {
-      title: shopName ? shopName + ' - 免费WiFi，扫码即连' : '免费WiFi，扫码即连 - ' + ssid,
+      title: shopName ? shopName + ' - 免费WiFi，扫码一键连免费上网' : '免费WiFi扫码即连，一键免费上网 - ' + ssid,
       path: '/pages/index/index?shopId=' + (this._shopId || ''),
       imageUrl: '' // 可替换为店铺缩略图或品牌图
     }

@@ -20,6 +20,14 @@
     {
       "action": "disallow",
       "page": "pages/manage/manage"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/profile/profile"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/feedback/feedback"
     }
   ]
 }

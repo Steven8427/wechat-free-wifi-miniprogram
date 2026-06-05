@@ -1,0 +1,44 @@
+<!-- pages/profile/profile.wxml -->
+<view class="container">
+
+  <!-- 顶部品牌区 -->
+  <view class="header">
+    <view class="brand-logo">📶</view>
+    <view class="brand-info">
+      <text class="brand-name">灵动wifi连接</text>
+      <text class="brand-slogan">扫码一键连 · 告别手输密码</text>
+    </view>
+  </view>
+
+  <!-- 互动分组 -->
+  <view class="group">
+    <view class="cell" hover-class="cell-hover" bindtap="onFeedback">
+      <text class="cell-icon">💬</text>
+      <text class="cell-label">意见反馈</text>
+      <text class="cell-arrow">›</text>
+    </view>
+    <view class="cell" hover-class="cell-hover" bindtap="onContact">
+      <text class="cell-icon">💌</text>
+      <text class="cell-label">联系作者</text>
+      <text class="cell-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 关于分组 -->
+  <view class="group">
+    <button class="cell cell-btn" hover-class="cell-hover" open-type="share">
+      <text class="cell-icon">📤</text>
+      <text class="cell-label">推荐给朋友</text>
+      <text class="cell-arrow">›</text>
+    </button>
+    <view class="cell" hover-class="cell-hover" bindtap="onAbout">
+      <text class="cell-icon">ℹ️</text>
+      <text class="cell-label">关于</text>
+      <text class="cell-value">{{version}}</text>
+      <text class="cell-arrow">›</text>
+    </view>
+  </view>
+
+  <text class="footer">© 2026 灵动wifi连接 · 用心做好每一次连接</text>
+
+</view>

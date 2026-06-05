@@ -5,7 +5,9 @@
     "pages/create/create",
     "pages/index/index",
     "pages/success/success",
-    "pages/manage/manage"
+    "pages/manage/manage",
+    "pages/profile/profile",
+    "pages/feedback/feedback"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -13,6 +15,26 @@
     "navigationBarTitleText": "免费WiFi",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#EDEDED"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/list/list",
+        "text": "WiFi管理",
+        "iconPath": "images/tab_wifi.png",
+        "selectedIconPath": "images/tab_wifi_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab_me.png",
+        "selectedIconPath": "images/tab_me_active.png"
+      }
+    ]
   },
   "permission": {
     "scope.userLocation": {

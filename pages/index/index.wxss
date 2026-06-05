@@ -195,6 +195,29 @@
   color: #888;
 }
 
+/* ===== 服务说明 / SEO ===== */
+.seo-desc {
+  margin: 8rpx 30rpx 50rpx;
+  padding: 28rpx 32rpx;
+  background: rgba(255,255,255,0.6);
+  border-radius: 20rpx;
+}
+
+.seo-desc-title {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 12rpx;
+}
+
+.seo-desc-text {
+  display: block;
+  font-size: 23rpx;
+  color: #aaa;
+  line-height: 1.7;
+}
+
 /* ===================================================
    自定义广告弹层
    =================================================== */

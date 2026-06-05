@@ -1,0 +1,42 @@
+<!-- pages/feedback/feedback.wxml -->
+<view class="container">
+
+  <view class="tip-banner">
+    <text class="tip-text">你的建议是我们改进的动力，感谢反馈 💚</text>
+  </view>
+
+  <!-- 反馈内容 -->
+  <view class="card">
+    <view class="card-title">反馈内容</view>
+    <textarea
+      class="content-input"
+      placeholder="请描述你遇到的问题或建议……"
+      placeholder-class="ph"
+      maxlength="500"
+      value="{{content}}"
+      bindinput="onContentInput"
+      auto-height
+    />
+    <view class="char-count">{{content.length}}/500</view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="card">
+    <view class="card-title">联系方式 <text class="optional">（选填）</text></view>
+    <input
+      class="contact-input"
+      placeholder="微信/手机/邮箱，方便我们回复你"
+      placeholder-class="ph"
+      value="{{contact}}"
+      bindinput="onContactInput"
+    />
+  </view>
+
+  <button
+    class="submit-btn"
+    bindtap="onSubmit"
+    disabled="{{submitting || !content}}"
+    loading="{{submitting}}"
+  >{{submitting ? '提交中...' : '提交反馈'}}</button>
+
+</view>
