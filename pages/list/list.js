@@ -18,42 +18,54 @@ Page({
 
   _loadWifiList() {
     this.setData({ loading: true })
-    const db = wx.cloud.database()
-
-    // 只查询当前登录用户自己创建的记录（云数据库会自动用 _openid 过滤）
-    db.collection('wifi_list')
-      .orderBy('createTime', 'desc')
-      .get()
-      .then(res => {
-        const fileIDs = res.data
-          .filter(item => item.qrcodeFileID)
-          .map(item => item.qrcodeFileID)
-
-        if (fileIDs.length === 0) {
-          this.setData({ wifiList: res.data, filteredList: res.data, loading: false })
-          return
-        }
-
-        wx.cloud.getTempFileURL({
-          fileList: fileIDs,
-          success: (tempRes) => {
-            const urlMap = {}
-            tempRes.fileList.forEach(f => { urlMap[f.fileID] = f.tempFileURL })
-            const list = res.data.map(item => ({
-              ...item,
-              tempQrcodeUrl: item.qrcodeFileID ? (urlMap[item.qrcodeFileID] || '') : ''
-            }))
-            this.setData({ wifiList: list, filteredList: list, loading: false })
-          },
-          fail: () => {
-            this.setData({ wifiList: res.data, filteredList: res.data, loading: false })
-          }
-        })
+    this._fetchAllRecords()
+      .then(records => this._attachQrcodeUrls(records))
+      .then(list => {
+        this.setData({ wifiList: list, filteredList: list, loading: false })
       })
       .catch(() => {
         this.setData({ loading: false })
         wx.showToast({ title: '加载失败，请重试', icon: 'none' })
       })
+  },
+
+  // 小程序端单次最多返回20条，循环分页拉取全部记录（云数据库会自动用 _openid 过滤）
+  async _fetchAllRecords() {
+    const db = wx.cloud.database()
+    const PAGE = 20
+    let all = []
+    let skip = 0
+    while (true) {
+      const res = await db.collection('wifi_list')
+        .orderBy('createTime', 'desc')
+        .skip(skip)
+        .limit(PAGE)
+        .get()
+      all = all.concat(res.data)
+      if (res.data.length < PAGE) break
+      skip += PAGE
+    }
+    return all
+  },
+
+  // getTempFileURL 单次最多50个，分批换取临时链接
+  async _attachQrcodeUrls(records) {
+    const fileIDs = records.filter(r => r.qrcodeFileID).map(r => r.qrcodeFileID)
+    if (fileIDs.length === 0) return records
+    const urlMap = {}
+    for (let i = 0; i < fileIDs.length; i += 50) {
+      const batch = fileIDs.slice(i, i + 50)
+      try {
+        const res = await wx.cloud.getTempFileURL({ fileList: batch })
+        res.fileList.forEach(f => { urlMap[f.fileID] = f.tempFileURL })
+      } catch (e) {
+        // 某一批失败就跳过，对应卡片用占位图
+      }
+    }
+    return records.map(r => ({
+      ...r,
+      tempQrcodeUrl: r.qrcodeFileID ? (urlMap[r.qrcodeFileID] || '') : ''
+    }))
   },
 
   onSearchInput(e) {

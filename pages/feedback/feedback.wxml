@@ -15,6 +15,7 @@
       maxlength="500"
       value="{{content}}"
       bindinput="onContentInput"
+      cursor-spacing="30"
       auto-height
     />
     <view class="char-count">{{content.length}}/500</view>

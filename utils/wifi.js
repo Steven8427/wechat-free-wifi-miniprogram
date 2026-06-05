@@ -117,6 +117,32 @@ function doConnect(ssid, password) {
   })
 }
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+/**
+ * 校验是否真的连上了目标WiFi
+ * connectWifi 的 success 不代表一定连上，这里再确认一次。
+ * 策略偏保守：只有明确连到了「另一个」网络才判失败；
+ * 拿不到连接信息时不误判（避免把真实成功误报为失败）。
+ */
+function verifyConnected(ssid) {
+  return new Promise((resolve) => {
+    wx.getConnectedWifi({
+      success: (res) => {
+        const current = res.wifi && res.wifi.SSID
+        if (current && current !== ssid) {
+          resolve({ ok: false, current: current })
+        } else {
+          resolve({ ok: true })
+        }
+      },
+      fail: () => resolve({ ok: true })
+    })
+  })
+}
+
 /**
  * 连接WiFi（完整流程）
  */
@@ -141,6 +167,13 @@ function connectWifi(ssid, password) {
   return chain
     .then(() => initWifi())
     .then(() => doConnect(ssid, password))
+    .then(() => delay(1000))
+    .then(() => verifyConnected(ssid))
+    .then((v) => {
+      if (!v.ok) {
+        return Promise.reject({ errCode: -100, errMsg: '未连接到目标WiFi，当前: ' + v.current })
+      }
+    })
 }
 
 module.exports = { connectWifi }

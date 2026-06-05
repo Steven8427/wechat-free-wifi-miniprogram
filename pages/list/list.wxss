@@ -138,6 +138,7 @@
 
 .card-left {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 10rpx;
@@ -148,11 +149,17 @@
   font-size: 32rpx;
   font-weight: 700;
   color: #1a1a1a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-ssid {
   font-size: 24rpx;
   color: #888;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-count {

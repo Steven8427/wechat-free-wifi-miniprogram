@@ -135,12 +135,32 @@ Page({
         console.error('[WIFI] 连接失败', err)
         this.setData({ connecting: false })
         let msg = '连接失败，请重试'
-        if (err.errCode === 12007) msg = '用户拒绝授权，无法连接WiFi'
-        else if (err.errCode === 12005) msg = '未找到该WiFi，请确认在信号范围内'
-        else if (err.errCode === 12010) msg = '系统不支持该操作'
-        else if (err.errCode === 12013) msg = 'WiFi密码错误'
-        wx.showModal({ title: '连接失败', content: msg, showCancel: false })
+        if (err.errCode === 12007) msg = '需要位置权限才能连接WiFi，请授权后重试'
+        else if (err.errCode === 12005) msg = '未找到该WiFi，请确认在信号覆盖范围内'
+        else if (err.errCode === 12010) msg = '系统暂不支持自动连接，请尝试手动连接'
+        else if (err.errCode === 12013) msg = 'WiFi密码有误，请联系商家核实'
+        else if (err.errCode === -100) msg = '未能连接成功，请重试或手动连接'
+        wx.showModal({
+          title: '连接失败',
+          content: msg,
+          confirmText: '重新连接',
+          cancelText: '退出',
+          confirmColor: '#07C160',
+          success: (res) => {
+            if (res.confirm) {
+              this._startConnect()
+            } else {
+              this._exit()
+            }
+          }
+        })
       })
+  },
+
+  _exit() {
+    if (wx.exitMiniProgram) {
+      wx.exitMiniProgram({ fail: () => {} })
+    }
   },
 
   onShareAppMessage() {

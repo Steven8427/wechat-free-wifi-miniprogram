@@ -15,28 +15,31 @@
   <view class="form-card">
     <view class="form-item">
       <text class="form-label">品牌名称</text>
-      <input 
-        class="form-input" 
-        placeholder="如：星巴克（选填）" 
+      <input
+        class="form-input"
+        placeholder="如：星巴克（选填）"
         value="{{shopName}}"
+        maxlength="20"
         bindinput="onInputShopName"
       />
     </view>
     <view class="form-item">
       <text class="form-label">WiFi名称</text>
-      <input 
-        class="form-input" 
-        placeholder="输入WiFi名称（必填）" 
+      <input
+        class="form-input"
+        placeholder="输入WiFi名称（必填）"
         value="{{ssid}}"
+        maxlength="32"
         bindinput="onInputSsid"
       />
     </view>
     <view class="form-item">
       <text class="form-label">WiFi密码</text>
-      <input 
-        class="form-input" 
-        placeholder="输入WiFi密码（必填）" 
+      <input
+        class="form-input"
+        placeholder="输入WiFi密码（至少8位）"
         value="{{password}}"
+        maxlength="63"
         bindinput="onInputPassword"
       />
     </view>

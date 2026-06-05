@@ -28,78 +28,67 @@ Page({
   // ========== 创建WiFi码 ==========
 
   async onCreate() {
-    var that = this
-    var shopName = that.data.shopName
-    var ssid = that.data.ssid
-    var password = that.data.password
+    const ssid = (this.data.ssid || '').trim()
+    const password = (this.data.password || '').trim()
+    const shopName = (this.data.shopName || '').trim()
 
-    if (!ssid || !ssid.trim()) {
+    if (!ssid) {
       wx.showToast({ title: '请输入WiFi名称', icon: 'none' })
       return
     }
-    if (!password || !password.trim()) {
-      wx.showToast({ title: '请输入WiFi密码', icon: 'none' })
+    if (password.length < 8) {
+      wx.showToast({ title: 'WiFi密码至少8位', icon: 'none' })
       return
     }
 
-    that.setData({ creating: true })
+    this.setData({ creating: true })
+
+    const db = wx.cloud.database()
+    const shopId = this._generateShopId()
+    let fileID = ''
 
     try {
-      // 1. 生成唯一 shopId
-      var shopId = that._generateShopId()
+      // 1. 先生成小程序码（拿到 fileID 再写库，避免留下没有码的脏记录）
+      const res = await wx.cloud.callFunction({
+        name: 'getWxacode',
+        data: { scene: shopId, page: 'pages/index/index' }
+      })
+      if (!res.result || res.result.code !== 0) {
+        throw new Error((res.result && res.result.errMsg) || '生成小程序码失败')
+      }
+      fileID = res.result.fileID
 
-      // 2. 保存到云数据库
-      var db = wx.cloud.database()
+      // 2. 换取临时预览链接
+      const tempRes = await wx.cloud.getTempFileURL({ fileList: [fileID] })
+      const tempUrl = (tempRes.fileList && tempRes.fileList[0]) ? tempRes.fileList[0].tempFileURL : ''
+
+      // 3. 一次性写入完整记录（含 qrcodeFileID，无需二次 update）
       await db.collection('wifi_list').add({
         data: {
           shopId: shopId,
-          ssid: ssid.trim(),
-          password: password.trim(),
-          shopName: (shopName && shopName.trim()) ? shopName.trim() : ssid.trim(),
+          ssid: ssid,
+          password: password,
+          shopName: shopName || ssid,
+          qrcodeFileID: fileID,
           createTime: db.serverDate(),
           connectCount: 0
         }
       })
 
-      console.log('[CREATE] WiFi已保存, shopId:', shopId)
-
-      // 3. 调用云函数生成小程序码
-      var res = await wx.cloud.callFunction({
-        name: 'getWxacode',
-        data: {
-          scene: shopId,
-          page: 'pages/index/index'
-        }
+      console.log('[CREATE] WiFi已创建, shopId:', shopId)
+      this.setData({
+        creating: false,
+        showResult: true,
+        qrcodeUrl: tempUrl,
+        currentShopId: shopId
       })
-
-      if (res.result && res.result.code === 0) {
-        // 获取临时URL
-        var tempRes = await wx.cloud.getTempFileURL({
-          fileList: [res.result.fileID]
-        })
-        var tempUrl = ''
-        if (tempRes.fileList && tempRes.fileList[0]) {
-          tempUrl = tempRes.fileList[0].tempFileURL
-        }
-
-        that.setData({
-          creating: false,
-          showResult: true,
-          qrcodeUrl: tempUrl,
-          currentShopId: shopId
-        })
-
-        // 更新数据库记录
-        db.collection('wifi_list').where({ shopId: shopId }).update({
-          data: { qrcodeFileID: res.result.fileID }
-        })
-      } else {
-        throw new Error((res.result && res.result.errMsg) || '生成失败')
-      }
-
     } catch (err) {
       console.error('[CREATE] 创建失败', err)
-      that.setData({ creating: false })
+      // 回滚：码已生成但写库失败时，删掉孤立的云存储文件
+      if (fileID) {
+        wx.cloud.deleteFile({ fileList: [fileID] }).catch(() => {})
+      }
+      this.setData({ creating: false })
       wx.showModal({
         title: '创建失败',
         content: err.message || '请稍后重试',
